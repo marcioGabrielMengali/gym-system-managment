@@ -1,0 +1,35 @@
+{
+  "name": "01-gym-system-managment",
+  "version": "1.0.0",
+  "description": "## Project",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint",
+    "build": "tsup src --out-dir build",
+    "dev": "tsx watch src/server.ts",
+    "start": "node build/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcioGabrielMengali/gym-system-managment.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marcioGabrielMengali/gym-system-managment/issues"
+  },
+  "homepage": "https://github.com/marcioGabrielMengali/gym-system-managment#readme",
+  "devDependencies": {
+    "@types/node": "22.13.16",
+    "eslint": "9.23.0",
+    "tsup": "8.4.0",
+    "tsx": "4.19.3",
+    "typescript": "5.8.2"
+  },
+  "dependencies": {
+    "dotenv": "16.4.7",
+    "fastify": "5.2.2",
+    "zod": "3.24.2"
+  }
+}
