@@ -1,10 +1,12 @@
-import { PrismaGymRepostiroy } from '@/repositories/prisma/prisma-gym-repository';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
-import { GymUseCase } from '../use-cases/gym-use-case';
 import { GymAlreadyExistsError } from '../use-cases/errors/gym-already-exitst-error';
+import { makeRegisterGymUseCase } from '../use-cases/factories/make-register-gym-use-case';
 
-export async function register(request: FastifyRequest, reply: FastifyReply) {
+export async function registerGym(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
   const registerGym = z.object({
     email: z
       .string({ required_error: 'email is required' })
@@ -24,15 +26,14 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
 
   const data = registerGym.parse(request.body);
   try {
-    const repository = new PrismaGymRepostiroy();
-    const useCase = new GymUseCase(repository);
-    await useCase.createGym(data);
+    const registerGymUseCase = makeRegisterGymUseCase();
+    await registerGymUseCase.registerGym(data);
   } catch (error) {
     console.error('registerGym error', error);
     if (error instanceof GymAlreadyExistsError) {
       return reply.status(409).send({ message: error.message });
     }
-    throw error
+    throw error;
   }
-  return reply.status(201).send()
+  return reply.status(201).send();
 }
