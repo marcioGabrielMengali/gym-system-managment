@@ -5,7 +5,7 @@ import { appRoutes } from './http/routes/routes';
 
 export const app = fastify();
 
-app.register(appRoutes)
+app.register(appRoutes);
 
 app.addHook('preHandler', async (request, _) => {
   console.log(`[${request.method}] : ${request.url}`);

@@ -1,5 +1,5 @@
-import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
+import { defineConfig } from 'eslint/config';
 
 export default defineConfig([
   {
@@ -8,11 +8,17 @@ export default defineConfig([
       quotes: ['error', 'single'],
       semi: ['error', 'always'],
       'no-unused-vars': ['error'],
-      indent: ['error', 2],
-      camelcase: ['error', { properties: 'always' }],
-    },
-    plugins: {
-      '@typescript-eslint': tseslint.plugin,
     },
   },
+  {
+    ignores: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/coverage/**',
+      '**/build/**',
+      '**/lib/**',
+      '**/out/**',
+    ],
+  },
+  tseslint.configs.recommended,
 ]);
