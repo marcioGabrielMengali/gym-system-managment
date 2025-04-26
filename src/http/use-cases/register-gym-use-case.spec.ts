@@ -1,4 +1,4 @@
-import { expect, describe, it, beforeEach } from 'vitest';
+import { expect, describe, it, beforeEach, vi, afterEach } from 'vitest';
 import { RegisterGymUseCase } from './register-gym-use-case';
 import { InMemoryGymRepository } from '@/repositories/in-memory/in-memory-gym-repository';
 import { Prisma } from '@prisma/client';
@@ -12,6 +12,10 @@ describe(RegisterGymUseCase.name, () => {
   beforeEach(() => {
     gymRepository = new InMemoryGymRepository();
     sut = new RegisterGymUseCase(gymRepository);
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+  });
+  afterEach(() => {
+    vi.resetAllMocks();
   });
   it('password should be encrypted', async () => {
     const data: Prisma.GymCreateInput = {

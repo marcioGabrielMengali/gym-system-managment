@@ -32,7 +32,7 @@ model Member {
   id        String   @id @default(uuid())
   email     String   @unique
   phone     String
-  actieve   Boolean  @default(true)
+  active   Boolean  @default(true)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
   gymId     String   @map("gym_id")
