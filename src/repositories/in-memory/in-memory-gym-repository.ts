@@ -29,4 +29,14 @@ export class InMemoryGymRepository implements GymRepository {
     }
     return gym;
   }
+
+  async findById(id: string): Promise<Gym | null> {
+    const gym: Gym | undefined = this.items.find(
+      (item) => item.id === id
+    );
+    if (!gym) {
+      return null;
+    }
+    return gym;
+  }
 }

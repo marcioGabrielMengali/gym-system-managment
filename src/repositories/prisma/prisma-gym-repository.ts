@@ -32,4 +32,21 @@ export class PrismaGymRepostiroy implements GymRepository {
       throw new Error();
     }
   }
+
+  async findById(id: string): Promise<Gym | null> {
+    try {
+      const gym = await prisma.gym.findUnique({
+        where: {
+          id,
+        },
+      });
+      return gym;
+    } catch (error) {
+      console.error(
+        `${PrismaGymRepostiroy.name} :: ${this.findById.name} :: error`,
+        error
+      );
+      throw new Error();
+    }
+  }
 }
