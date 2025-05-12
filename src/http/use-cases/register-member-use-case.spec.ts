@@ -25,7 +25,7 @@ describe(RegisterMemberUseCase.name, () => {
 
   it('Should not be able to register member without existing gym', async () => {
     await expect(() =>
-      sut.register({
+      sut.registerMember({
         email: 'email-01',
         gymId: 'gym-01',
         phone: 'phone-01',
@@ -55,7 +55,7 @@ describe(RegisterMemberUseCase.name, () => {
       updatedAt: new Date(),
     });
     await expect(() =>
-      sut.register({
+      sut.registerMember({
         email: 'email-01',
         gymId: 'gym-01',
         phone: 'phone-01',
@@ -75,7 +75,7 @@ describe(RegisterMemberUseCase.name, () => {
       createdAt: new Date(),
       updatedAt: new Date(),
     });
-    const { member } = await sut.register({
+    const { member } = await sut.registerMember({
       email: 'email-01',
       gymId: 'gym-01',
       phone: 'phone-01',

@@ -7,6 +7,7 @@ export default defineConfig({
     include: ['**/*.spec.ts'],
     coverage: {
       include: ['src/http/use-cases/**'],
+      exclude: ['src/http/use-cases/errors/**', 'src/http/use-cases/factories/**' ]
     },
   },
 });
