@@ -27,4 +27,9 @@ export class InMemoryMembersRepository implements MembersRepository {
     }
     return member;
   }
+
+  async findManyBymGymId(gymId: string, page: number): Promise<Member[]> {
+    const members = this.items.filter((item) => item.gymId === gymId).slice((page - 1) * 20, page * 20);
+    return members;
+  }
 }
