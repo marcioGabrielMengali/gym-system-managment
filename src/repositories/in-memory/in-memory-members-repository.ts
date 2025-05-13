@@ -9,7 +9,7 @@ export class InMemoryMembersRepository implements MembersRepository {
       id: 'member-1',
       email: data.email,
       phone: data.phone,
-      active: true,
+      active: data.active ?? true,
       createdAt: new Date(),
       updatedAt: new Date(),
       gymId: data.gymId,
@@ -29,7 +29,29 @@ export class InMemoryMembersRepository implements MembersRepository {
   }
 
   async findManyBymGymId(gymId: string, page: number): Promise<Member[]> {
-    const members = this.items.filter((item) => item.gymId === gymId).slice((page - 1) * 20, page * 20);
+    const members = this.items
+      .filter((item) => item.gymId === gymId)
+      .slice((page - 1) * 20, page * 20);
     return members;
+  }
+
+  async findById(id: string): Promise<Member | null> {
+    const member = this.items.find((item) => item.id === id);
+    if (!member) {
+      return null;
+    }
+    return member;
+  }
+
+  async update(id: string, member: Partial<Member>): Promise<Member | null> {
+    const index = this.items.findIndex((item) => item.id === id);
+    if (index === -1) {
+      return null;
+    }
+    this.items[index] = { ...this.items[index], ...member };
+
+    const updatedMember = this.items[index];
+
+    return updatedMember;
   }
 }
