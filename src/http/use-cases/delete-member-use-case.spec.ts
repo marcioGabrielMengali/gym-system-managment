@@ -2,15 +2,15 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { InMemoryMembersRepository } from '@/repositories/in-memory/in-memory-members-repository';
 import { MemberNotFoundError } from './errors/member-not-found-error';
 import { DatabaseError } from './errors/database-error';
-import { DeactivateMemberUseCase } from './deactivate-member-use-case';
+import { DeleteMemberUseCase } from './delte-member-use-case';
 
-describe('Deactivate Member Use Case', () => {
-  let sut: DeactivateMemberUseCase;
+describe('Delete Member Use Case', () => {
+  let sut: DeleteMemberUseCase;
   let membersRepository: InMemoryMembersRepository;
 
   beforeEach(() => {
     membersRepository = new InMemoryMembersRepository();
-    sut = new DeactivateMemberUseCase(membersRepository);
+    sut = new DeleteMemberUseCase(membersRepository);
   });
 
   afterEach(() => {
@@ -19,32 +19,37 @@ describe('Deactivate Member Use Case', () => {
 
   it('Should throw new MemberNotFoundError', async () => {
     await expect(() =>
-      sut.deactivateMember({ id: 'someId' })
+      sut.DeleteMember({ id: 'someId' })
     ).rejects.toBeInstanceOf(MemberNotFoundError);
   });
   it('Should throw new DatabaseError', async () => {
-    vi.spyOn(membersRepository, 'update').mockResolvedValue(null);
+    vi.spyOn(membersRepository, 'delete').mockResolvedValue(null);
     const createdMember = await membersRepository.create({
       email: 'testEmail@gmail.com',
       gymId: 'gym-01',
       phone: '123456789',
     });
     const id = createdMember.id;
-    await expect(() =>
-      sut.deactivateMember({ id })
-    ).rejects.toBeInstanceOf(DatabaseError);
+    await expect(() => sut.DeleteMember({ id })).rejects.toBeInstanceOf(
+      DatabaseError
+    );
   });
-  it('Should deactivate member', async () => {
+  it('Should delete a member', async () => {
     const createdMember = await membersRepository.create({
       email: 'testEmail@gmail.com',
       gymId: 'gym-01',
       phone: '123456789',
     });
     const id = createdMember.id;
-    const expected = { ...createdMember, ...{ active: false } };
-    const { member: result } = await sut.deactivateMember({
+    const expected = { ...createdMember };
+    const { member: result } = await sut.DeleteMember({
       id,
     });
     expect(result).toStrictEqual(expected);
+    await expect(() =>
+      sut.DeleteMember({
+        id,
+      })
+    ).rejects.toBeInstanceOf(MemberNotFoundError);
   });
 });

@@ -54,4 +54,13 @@ export class InMemoryMembersRepository implements MembersRepository {
 
     return updatedMember;
   }
+
+  async delete(id: string): Promise<Member|null> {
+    const index = this.items.findIndex((item) => item.id === id);
+    if (index === -1) {
+      return null;
+    }
+    const [deletedMember] = this.items.splice(index, 1);
+    return deletedMember;
+  }
 }

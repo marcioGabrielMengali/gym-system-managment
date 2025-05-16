@@ -6,4 +6,5 @@ export interface MembersRepository {
   findManyBymGymId(gymId: string, page: number): Promise<Member[]>;
   findById(id: string): Promise<Member | null>;
   update(id: string, member: Partial<Member>): Promise<Member | null>;
+  delete(id: string): Promise<Member|null>
 }
