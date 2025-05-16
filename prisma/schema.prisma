@@ -14,29 +14,42 @@ datasource db {
 }
 
 model Gym {
-  id        String   @id @default(uuid())
-  email     String   @unique
+  id        String    @id @default(uuid())
+  email     String    @unique
   password  String
   country   String
   state     String
   city      String
-  zipCode   String   @map("zip_code")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  zipCode   String    @map("zip_code")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
   members   Member[]
+  payments  Payment[]
 
   @@map("gym")
 }
 
 model Member {
-  id        String   @id @default(uuid())
-  email     String   @unique
+  id        String    @id @default(uuid())
+  email     String    @unique
   phone     String
-  active   Boolean  @default(true)
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  gymId     String   @map("gym_id")
-  gym       Gym      @relation(fields: [gymId], references: [id])
+  active    Boolean   @default(true)
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  gymId     String    @map("gym_id")
+  gym       Gym       @relation(fields: [gymId], references: [id])
+  payments  Payment[]
 
   @@map("members")
+}
+
+model Payment {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  gymId     String   @map("gym_id")
+  gym       Gym      @relation(fields: [gymId], references: [id])
+  memberId  String   @map("member_id")
+  member    Member   @relation(fields: [memberId], references: [id])
+
+  @@map("payments")
 }
